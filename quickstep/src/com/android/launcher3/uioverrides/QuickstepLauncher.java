@@ -565,7 +565,7 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer 
             case HINT_STATE_ORDINAL: {
                 Workspace<?> workspace = getWorkspace();
                 getStateManager().goToState(NORMAL);
-                if (workspace.getNextPage() != Workspace.DEFAULT_PAGE) {
+                if (workspace.getNextPage() != workspace.getDefaultPageIndex()) {
                     workspace.post(workspace::moveToDefaultScreen);
                 }
                 break;

@@ -33,6 +33,10 @@ class LawnchairAccessibilityService : AccessibilityService() {
             // package names here.  Otherwise, when the service is activated, it will listen
             // to events from all applications.
             packageNames = emptyArray()
+
+            // Lawnchair(客製):原生桌面掃描匯入需要讀取視窗內容與 view id
+            flags = AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS or
+                AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
         }
         lawnchairApp.accessibilityService = this
     }

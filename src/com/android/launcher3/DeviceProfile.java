@@ -1562,10 +1562,27 @@ public class DeviceProfile {
         updateFolderCellSize(1f, res);
 
         // Responsive grid doesn't need to scale the folder
-        if (mIsResponsiveGrid)
-            return;
+        if (!mIsResponsiveGrid) {
+            float fitScale = computeFolderFitScale();
+            if (fitScale < 1f) {
+                updateFolderCellSize(fitScale, res);
+            }
+        }
 
-        // For usability we can't have the folder use the whole width of the screen
+        // Lawnchair(客製):套用使用者的資料夾視窗大小係數,放大後再夾限避免超出螢幕
+        float folderSizeFactor = PreferenceExtensionsKt
+                .firstBlocking(preferenceManager2.getFolderSizeFactor());
+        if (Float.compare(folderSizeFactor, 1f) != 0) {
+            scaleFolderDimensions(folderSizeFactor);
+            float fitScale = computeFolderFitScale();
+            if (fitScale < 1f) {
+                scaleFolderDimensions(fitScale);
+            }
+        }
+    }
+
+    /** 資料夾內容相對可用空間的縮放比(>=1 表示放得下) */
+    private float computeFolderFitScale() {
         Point totalWorkspacePadding = getTotalWorkspacePadding();
 
         // Check if the folder fit within the available height.
@@ -1583,10 +1600,16 @@ public class DeviceProfile {
         int contentMaxWidth = availableWidthPx - totalWorkspacePadding.x;
         float scaleX = contentMaxWidth / contentUsedWidth;
 
-        float scale = Math.min(scaleX, scaleY);
-        if (scale < 1f) {
-            updateFolderCellSize(scale, res);
-        }
+        return Math.min(scaleX, scaleY);
+    }
+
+    /** 等比縮放資料夾格子、圖示與文字 */
+    private void scaleFolderDimensions(float factor) {
+        folderCellWidthPx = roundPxValueFromFloat(folderCellWidthPx * factor);
+        folderCellHeightPx = roundPxValueFromFloat(folderCellHeightPx * factor);
+        folderChildIconSizePx = Math.max(1, roundPxValueFromFloat(folderChildIconSizePx * factor));
+        folderChildTextSizePx = roundPxValueFromFloat(folderChildTextSizePx * factor);
+        folderLabelTextSizePx = roundPxValueFromFloat(folderLabelTextSizePx * factor);
     }
 
     private void updateFolderCellSize(float scale, Resources res) {

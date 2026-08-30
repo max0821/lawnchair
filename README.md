@@ -23,6 +23,21 @@ Lawnchair is a free, open-source home app for Android. Taking Launcher3—Androi
 
 This branch houses the codebase of Lawnchair 15, which is currently in beta and is based on Launcher3 from Android 15. For Lawnchair 9 to 14, see the branches with the `9-` to `14-` prefixes, respectively.
 
+## PixelStyle 客製說明（正體中文）
+
+本儲存庫是從 [LawnchairLauncher/lawnchair](https://github.com/LawnchairLauncher/lawnchair) fork 而來；`codex/06-lawnchair-pixelstyle` 分支以 Lawnchair `v15.0.0-beta3.0` 為基底，保留上游的授權與來源脈絡，並加入 PixelStyle 的桌面使用方式。
+
+### 兩個核心亮點
+
+1. **主頁左邊的小工具頁**：主頁預設在第 2 頁，左邊第 1 頁（`screen 0`）專門留給小工具；即使關閉 At a Glance，也不會被自動清除。
+2. **自動依原生桌面匯入**：使用者自行啟用 Lawnchair 無障礙服務後，可掃描原生桌面的頁面、Dock 與資料夾，並自動重建到 Lawnchair。
+
+附加設定包括可指定 Home 鍵與冷啟動回到哪一頁，以及可調整 80% 至 130% 的資料夾視窗大小。
+
+原生桌面匯入會重建桌面資料庫；使用前請備份現有桌面。掃描結果依賴原生 Launcher 的無障礙節點、語言與 App 顯示名稱，目前應視為 Pixel／相近 Launcher 的實測功能，而非保證相容所有 Android 桌面的通用遷移器。
+
+完整的設計取捨、資料流程、驗證狀態與後續建議請見[〈06 Lawnchair：從自製 Launcher 到 PixelStyle 客製〉](docs/PIXELSTYLE_LAWNCHAIR_CUSTOMIZATION.zh-TW.md)。本 fork 的使用、散布與後續修改仍須遵守上游的 [Apache License 2.0](LICENSE.txt)。
+
 ## Features
 
 -   **Material You Theming:** Adapts to your wallpaper and system theme.

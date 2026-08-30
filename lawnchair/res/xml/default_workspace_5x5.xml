@@ -75,7 +75,7 @@
     <!-- Google, Gmail, Maps, YouTube, Drive, YouTube Music, Play Movies, Duo, Photos -->
     <folder
         launcher:title="@string/google_folder_title"
-        launcher:screen="0"
+        launcher:screen="1"
         launcher:x="0"
         launcher:y="4">
         <favorite
@@ -108,7 +108,7 @@
     </folder>
 
     <resolve
-        launcher:screen="0"
+        launcher:screen="1"
         launcher:x="4"
         launcher:y="4">
         <favorite

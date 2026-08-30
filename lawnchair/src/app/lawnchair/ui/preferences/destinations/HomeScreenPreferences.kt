@@ -153,6 +153,18 @@ fun HomeScreenPreferences(
                 destination = HomeScreenGrid,
                 subtitle = stringResource(id = R.string.x_by_y, columns, rows),
             )
+            SliderPreference(
+                label = stringResource(id = R.string.home_default_page_label),
+                adapter = prefs.homeDefaultPage.getAdapter(),
+                step = 1,
+                valueRange = 1..9,
+            )
+            val importContext = LocalContext.current
+            ClickablePreference(
+                label = stringResource(id = R.string.native_import_label),
+                subtitle = stringResource(id = R.string.native_import_description),
+                onClick = { app.lawnchair.nativeimport.NativeImportController.start(importContext) },
+            )
             SwitchPreference(
                 adapter = lockHomeScreenAdapter,
                 label = stringResource(id = R.string.home_screen_lock),

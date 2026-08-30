@@ -52,6 +52,10 @@ class PreferenceManager private constructor(private val context: Context) :
     val hotseatColumns = IntPref("pref_hotseatColumns", 4, reloadGrid)
     val workspaceColumns = IntPref("pref_workspaceColumns", 4)
     val workspaceRows = IntPref("pref_workspaceRows", 5)
+
+    // Lawnchair(客製):Home 鍵/冷啟動錨定的預設主畫面頁(1-based)。
+    // 預設 2:首次安裝時 default workspace 在 screen 1,screen 0 保留為小工具頁
+    val homeDefaultPage = IntPref("pref_homeDefaultPage", 2)
     val workspaceIncreaseMaxGridSize = BoolPref("pref_workspace_increase_max_grid_size", false)
     val folderRows = IdpIntPref("pref_folderRows", { numFolderRows[INDEX_DEFAULT] }, reloadGrid)
 

@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Trace
 import android.util.Log
 import androidx.annotation.UiThread
+import app.lawnchair.preferences.PreferenceManager
 import com.android.launcher3.Flags.enableSmartspaceRemovalToggle
 import com.android.launcher3.LauncherConstants.TraceEvents
 import com.android.launcher3.Utilities.SHOULD_SHOW_FIRST_PAGE_WIDGET
@@ -263,7 +264,15 @@ class ModelCallbacks(private var launcher: Launcher) : BgDataModel.Callbacks {
             when {
                 !pagesToBindSynchronously.isEmpty -> pagesToBindSynchronously
                 !workspaceLoading -> launcher.workspace.currentPageScreenIds
-                else -> synchronouslyBoundPages
+                !synchronouslyBoundPages.isEmpty -> synchronouslyBoundPages
+                else -> {
+                    // Lawnchair(客製):冷啟動時優先綁定使用者自訂的預設主畫面頁
+                    val prefPage = PreferenceManager.getInstance(launcher).homeDefaultPage.get() - 1
+                    val idx = prefPage.coerceIn(0, maxOf(0, orderedScreenIds.size() - 1))
+                    LIntSet().apply {
+                        if (!orderedScreenIds.isEmpty) add(orderedScreenIds.get(idx))
+                    }
+                }
             }
         // Launcher IntArray has the same name as Kotlin IntArray
         val result = LIntSet()
@@ -326,18 +335,10 @@ class ModelCallbacks(private var launcher: Launcher) : BgDataModel.Callbacks {
             launcher.deviceProfile.isTwoPanels
         )
         val firstScreenPosition = 0
-        if (
-            (isFirstPagePinnedItemEnabled && !SHOULD_SHOW_FIRST_PAGE_WIDGET) &&
-                orderedScreenIds.indexOf(FIRST_SCREEN_ID) != firstScreenPosition
-        ) {
+        // Lawnchair(客製):screen 0 固定為小工具專區,無論 At a Glance 開關都保證存在且在最前
+        if (orderedScreenIds.indexOf(FIRST_SCREEN_ID) != firstScreenPosition) {
             orderedScreenIds.removeValue(FIRST_SCREEN_ID)
             orderedScreenIds.add(firstScreenPosition, FIRST_SCREEN_ID)
-        } else if (
-            (!isFirstPagePinnedItemEnabled || SHOULD_SHOW_FIRST_PAGE_WIDGET) &&
-                orderedScreenIds.isEmpty
-        ) {
-            // If there are no screens, we need to have an empty screen
-            launcher.workspace.addExtraEmptyScreens()
         }
         bindAddScreens(orderedScreenIds)
 

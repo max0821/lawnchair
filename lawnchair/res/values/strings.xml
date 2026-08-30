@@ -619,6 +619,17 @@
     <string name="infinite_scrolling_description">Swipe to loop between the first and last pages</string>
 
     <string name="home_screen_grid">Home screen grid</string>
+    <string name="home_default_page_label">Default home page</string>
+    <string name="home_default_page_description">The page shown when pressing Home or opening the launcher</string>
+    <string name="folder_size_factor_label">Folder window size</string>
+    <string name="native_import_label">Import native home screen layout</string>
+    <string name="native_import_description">Automatically scan the original launcher and rebuild its app order and folders</string>
+    <string name="native_import_need_a11y">Please enable the Lawnchair accessibility service first, then try again</string>
+    <string name="native_import_no_launcher">No native launcher found on this device</string>
+    <string name="native_import_started">Scanning native home screen…</string>
+    <string name="native_import_done">Import finished: %1$d items, %2$d folders. Restarting launcher…</string>
+    <string name="native_import_skipped">Not installed, skipped: %1$s</string>
+    <string name="native_import_failed">Import failed: %1$s</string>
     <string name="home_screen_lock">Lock home screen</string>
     <string name="home_screen_unlock">Unlock home screen</string>
     <string name="home_screen_locked">Home screen is locked</string>

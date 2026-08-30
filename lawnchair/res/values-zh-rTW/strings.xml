@@ -495,6 +495,17 @@
     <string name="infinite_scrolling_label">無限滑動</string>
     <string name="infinite_scrolling_description">Swipe to loop between the first and last pages</string>
     <string name="home_screen_grid">主畫面網格</string>
+    <string name="home_default_page_label">預設主畫面頁</string>
+    <string name="home_default_page_description">按 Home 鍵或開啟桌面時停留的頁面</string>
+    <string name="folder_size_factor_label">資料夾視窗大小</string>
+    <string name="native_import_label">匯入原生桌面排列</string>
+    <string name="native_import_description">自動掃描原生桌面,還原 App 順序與資料夾</string>
+    <string name="native_import_need_a11y">請先開啟 Lawnchair 的無障礙服務,再回來重試</string>
+    <string name="native_import_no_launcher">找不到裝置的原生桌面</string>
+    <string name="native_import_started">開始掃描原生桌面…</string>
+    <string name="native_import_done">匯入完成:%1$d 個項目、%2$d 個資料夾,桌面即將重新啟動…</string>
+    <string name="native_import_skipped">未安裝而略過:%1$s</string>
+    <string name="native_import_failed">匯入失敗:%1$s</string>
     <string name="home_screen_lock">鎖定主畫面版面</string>
     <string name="home_screen_unlock">解鎖主畫面版面</string>
     <string name="home_screen_locked">主畫面版面已鎖定</string>

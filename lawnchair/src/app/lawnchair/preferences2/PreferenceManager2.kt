@@ -401,6 +401,13 @@ class PreferenceManager2 private constructor(private val context: Context) :
         onSet = { reloadHelper.reloadGrid() },
     )
 
+    // Lawnchair(客製):資料夾視窗大小係數(格子/圖示/文字整體縮放)
+    val folderSizeFactor = preference(
+        key = floatPreferencesKey(name = "folder_size_factor"),
+        defaultValue = 1f,
+        onSet = { reloadHelper.reloadGrid() },
+    )
+
     val folderPreviewBackgroundOpacity = preference(
         key = floatPreferencesKey(name = "folder_preview_background_opacity"),
         defaultValue = resourceProvider.getFloat(R.dimen.config_default_folder_preview_background_opacity),

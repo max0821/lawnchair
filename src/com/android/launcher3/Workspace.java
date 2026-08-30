@@ -1138,7 +1138,8 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
             int id = mWorkspaceScreens.keyAt(i);
             CellLayout cl = mWorkspaceScreens.valueAt(i);
             // FIRST_SCREEN_ID can never be removed.
-            if ((!FeatureFlags.topQsbOnFirstScreenEnabled(mLauncher) || id > FIRST_SCREEN_ID)
+            // Lawnchair(客製):screen 0 固定為小工具專區,即使 At a Glance 關閉也不移除
+            if (id > FIRST_SCREEN_ID
                     && cl.getShortcutsAndWidgets().getChildCount() == 0) {
                 removeScreens.add(id);
             }
@@ -3697,8 +3698,18 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
      * Calls {@link #snapToPage(int)} on the {@link #DEFAULT_PAGE}, then requests
      * focus on it.
      */
+    /**
+     * Lawnchair(客製):使用者可自訂的預設主畫面頁。
+     * 偏好值為 1-based 頁碼,回傳夾限後的 0-based index。
+     */
+    public int getDefaultPageIndex() {
+        int page = app.lawnchair.preferences.PreferenceManager.getInstance(getContext())
+                .getHomeDefaultPage().get() - 1;
+        return Utilities.boundToRange(page, 0, Math.max(0, getPageCount() - 1));
+    }
+
     public void moveToDefaultScreen() {
-        int page = DEFAULT_PAGE;
+        int page = getDefaultPageIndex();
         if (!workspaceInModalState() && getNextPage() != page) {
             snapToPage(page);
         }

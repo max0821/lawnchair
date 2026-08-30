@@ -245,6 +245,9 @@ android {
         debug {
             applicationIdSuffix ".debug"
             resValue("string", "derived_app_name", "Lawnchair (Debug)")
+            // debug 固定用 debug 簽章(release keystore 只給 release 用),
+            // 才能覆蓋安裝既有 debug 版並保留 run-as 能力
+            signingConfig signingConfigs.debug
         }
 
         release {

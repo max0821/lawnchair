@@ -61,6 +61,13 @@ fun FolderPreferences(
         }
         PreferenceGroup(heading = stringResource(id = R.string.grid)) {
             SliderPreference(
+                label = stringResource(id = R.string.folder_size_factor_label),
+                adapter = prefs2.folderSizeFactor.getAdapter(),
+                step = 0.1f,
+                valueRange = 0.8F..1.3F,
+                showAsPercentage = true,
+            )
+            SliderPreference(
                 label = stringResource(id = R.string.max_folder_columns),
                 adapter = prefs2.folderColumns.getAdapter(),
                 step = 1,
