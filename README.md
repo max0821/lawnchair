@@ -34,6 +34,12 @@ This branch houses the codebase of Lawnchair 15, which is currently in beta and 
 
 附加設定包括可指定 Home 鍵與冷啟動回到哪一頁，以及可調整 80% 至 130% 的資料夾視窗大小。
 
+### 下載 APK（預覽版）
+
+[下載 PixelStyle Lawnchair v15.0.0-beta3.0-r1 APK](https://github.com/max0821/lawnchair/releases/download/pixelstyle-v15.0.0-beta3.0-r1/Lawnchair.15.Dev.88c37c5.github.release.apk)
+
+此版本對應客製提交 `88c37c5`；GitHub Release 顯示的 SHA-256 為 `87ac928dcf7998430555fb564b5feab42e8ff2adfd2e6dc3b342eecc118dad99`。安裝前請閱讀 Release 的備份與相容性注意事項。
+
 原生桌面匯入會重建桌面資料庫；使用前請備份現有桌面。掃描結果依賴原生 Launcher 的無障礙節點、語言與 App 顯示名稱，目前應視為 Pixel／相近 Launcher 的實測功能，而非保證相容所有 Android 桌面的通用遷移器。
 
 完整的設計取捨、資料流程、驗證狀態與後續建議請見[〈06 Lawnchair：從自製 Launcher 到 PixelStyle 客製〉](docs/PIXELSTYLE_LAWNCHAIR_CUSTOMIZATION.zh-TW.md)。本 fork 的使用、散布與後續修改仍須遵守上游的 [Apache License 2.0](LICENSE.txt)。
