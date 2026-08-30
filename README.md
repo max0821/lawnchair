@@ -1,5 +1,26 @@
 # Lawnchair 16
 
+## PixelStyle 客製版（正體中文）
+
+預設 `16-dev` 分支用於跟隨上游 Lawnchair 16；
+PixelStyle 客製程式位於 [`codex/06-lawnchair-pixelstyle`](https://github.com/max0821/lawnchair/tree/codex/06-lawnchair-pixelstyle) 分支，基於 Lawnchair `v15.0.0-beta3.0`，保留上游授權與來源追溯。
+
+### 兩個核心亮點
+
+**主頁左邊的小工具頁**：主頁預設第 2 頁，左側第 1 頁固定為小工具頁。
+
+**自動依原生桌面匯入**：啟用 Lawnchair 無障礙服務後，可掃描並匯入原生桌面的應用程式與資料夾配置。
+
+### 下載 APK（預覽版）
+
+[下載 PixelStyle Lawnchair APK](https://github.com/max0821/lawnchair/releases/download/pixelstyle-v15.0.0-beta3.0-r1/Lawnchair.15.Dev.88c37c5.github.release.apk)
+
+SHA-256：`87AC928DCF7998430555FB564B5FEAB42E8FF2ADFD2E6DC3B342EECC118DAD99`
+
+完整說明請見 [中文客製文件](https://github.com/max0821/lawnchair/blob/codex/06-lawnchair-pixelstyle/docs/PIXELSTYLE_LAWNCHAIR_CUSTOMIZATION.zh-TW.md)。
+
+
+
 [![Build debug APK](https://github.com/LawnchairLauncher/lawnchair/actions/workflows/ci.yml/badge.svg)](https://github.com/LawnchairLauncher/lawnchair/actions/workflows/ci.yml)
 [![Build release APK](https://github.com/LawnchairLauncher/lawnchair/actions/workflows/release_update.yml/badge.svg)](https://github.com/LawnchairLauncher/lawnchair/actions/workflows/release_update.yml)
 [![Crowdin](https://badges.crowdin.net/e/188ba69d884418987f0b7f1dd55e3a4e/localized.svg)](https://lawnchair.crowdin.com/lawnchair)
