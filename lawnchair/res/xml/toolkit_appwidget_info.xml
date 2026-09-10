@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Defaults to 5x2 (ten slots) and can be resized down to a single row, which is
+     the 5x1 layout. minResizeHeight is kept low so one row is always reachable.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="app.lawnchair.toolkit.ToolkitConfigActivity"
+    android:description="@string/toolkit_widget_description"
+    android:initialLayout="@layout/toolkit_widget"
+    android:minHeight="80dp"
+    android:minResizeHeight="50dp"
+    android:minResizeWidth="120dp"
+    android:minWidth="250dp"
+    android:previewLayout="@layout/toolkit_widget_preview"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellHeight="2"
+    android:targetCellWidth="5"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable" />

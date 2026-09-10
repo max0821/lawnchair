@@ -506,6 +506,28 @@
     <string name="native_import_done">匯入完成:%1$d 個項目、%2$d 個資料夾,桌面即將重新啟動…</string>
     <string name="native_import_skipped">未安裝而略過:%1$s</string>
     <string name="native_import_failed">匯入失敗:%1$s</string>
+
+    <string name="toolkit_widget_label">常用工具包</string>
+    <string name="toolkit_widget_description">把常用的 App 收在同一個小工具裡</string>
+    <string name="toolkit_empty_hint">點一下選擇 App</string>
+    <string name="toolkit_config_selected">已選 %1$d 個項目</string>
+    <string name="toolkit_config_section_selected">小工具內容 —— 拖曳可調整順序</string>
+    <string name="toolkit_config_section_all">全部項目 —— 點一下加入或移除</string>
+    <string name="toolkit_config_selected_empty">尚未選擇任何項目 —— 請從下方清單挑選</string>
+    <string name="toolkit_config_no_usage">目前為字母排序;開啟「使用情況存取權」後可改依最近開啟排序</string>
+    <string name="toolkit_config_save">完成</string>
+    <string name="toolkit_action_flashlight">手電筒</string>
+    <string name="toolkit_action_qr">掃描 QR 碼</string>
+    <string name="toolkit_action_transcribe">即時轉錄</string>
+    <string name="toolkit_action_unavailable">這台裝置沒有「%1$s」可用</string>
+    <string name="toolkit_action_alarm">鬧鐘</string>
+    <string name="toolkit_action_timer">計時器</string>
+    <string name="toolkit_action_camera">相機</string>
+    <string name="toolkit_action_wifi">Wi‑Fi</string>
+    <string name="toolkit_action_bluetooth">藍牙</string>
+    <string name="toolkit_action_no_torch">這台裝置沒有閃光燈</string>
+    <string name="toolkit_action_torch_busy">閃光燈正被其他 App 使用中</string>
+
     <string name="home_screen_lock">鎖定主畫面版面</string>
     <string name="home_screen_unlock">解鎖主畫面版面</string>
     <string name="home_screen_locked">主畫面版面已鎖定</string>

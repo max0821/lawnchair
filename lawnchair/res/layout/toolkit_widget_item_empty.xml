@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Placeholder that keeps the last row aligned to the same columns as the rows
+     above it when the entry count is not a multiple of the column count.
+
+     Must be a FrameLayout rather than a bare View: RemoteViews only accepts a
+     fixed set of view types as the root of an inflated layout, and a plain View
+     makes the whole widget fail to load.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="1dp"
+    android:layout_weight="1" />

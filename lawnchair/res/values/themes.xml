@@ -18,6 +18,16 @@
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
 
+    <!--
+         The toolkit picker draws its own header, so the platform action bar is
+         removed; window insets are applied in code because targetSdk 35 makes the
+         activity edge-to-edge on Android 15+.
+    -->
+    <style name="Theme.ToolkitConfig" parent="@android:style/Theme.DeviceDefault.DayNight">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="Theme.Transparent" parent="Theme.AppCompat.Light">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@null</item>

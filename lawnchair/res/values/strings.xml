@@ -630,6 +630,28 @@
     <string name="native_import_done">Import finished: %1$d items, %2$d folders. Restarting launcher…</string>
     <string name="native_import_skipped">Not installed, skipped: %1$s</string>
     <string name="native_import_failed">Import failed: %1$s</string>
+
+    <string name="toolkit_widget_label">Toolkit</string>
+    <string name="toolkit_widget_description">Keep frequently used apps together in one tray</string>
+    <string name="toolkit_empty_hint">Tap to choose apps</string>
+    <string name="toolkit_config_selected">%1$d items selected</string>
+    <string name="toolkit_config_section_selected">IN THE WIDGET — drag to reorder</string>
+    <string name="toolkit_config_section_all">ALL ITEMS — tap to add or remove</string>
+    <string name="toolkit_config_selected_empty">Nothing selected yet — pick items from the list below</string>
+    <string name="toolkit_config_no_usage">Sorted A–Z: grant usage access to sort by last opened</string>
+    <string name="toolkit_config_save">Done</string>
+    <string name="toolkit_action_flashlight">Flashlight</string>
+    <string name="toolkit_action_qr">Scan QR code</string>
+    <string name="toolkit_action_transcribe">Live Transcribe</string>
+    <string name="toolkit_action_unavailable">%1$s is not available on this device</string>
+    <string name="toolkit_action_alarm">Alarm</string>
+    <string name="toolkit_action_timer">Timer</string>
+    <string name="toolkit_action_camera">Camera</string>
+    <string name="toolkit_action_wifi">Wi‑Fi</string>
+    <string name="toolkit_action_bluetooth">Bluetooth</string>
+    <string name="toolkit_action_no_torch">This device has no flashlight</string>
+    <string name="toolkit_action_torch_busy">The flashlight is in use by another app</string>
+
     <string name="home_screen_lock">Lock home screen</string>
     <string name="home_screen_unlock">Unlock home screen</string>
     <string name="home_screen_locked">Home screen is locked</string>

@@ -83,6 +83,17 @@
             android:name="app.lawnchair.smartspace.SmartspacePreferencesShortcut"
             android:theme="@style/Theme.Transparent" />
 
+        <activity
+            android:name="app.lawnchair.toolkit.ToolkitConfigActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:label="@string/toolkit_widget_label"
+            android:theme="@style/Theme.ToolkitConfig">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name="app.lawnchair.gestures.handlers.SleepMethodDeviceAdmin$SleepDeviceAdmin"
             android:description="@string/dt2s_admin_hint"
@@ -153,6 +164,23 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/smartspace_appwidget_info" />
         </receiver>
+
+        <receiver
+            android:name="app.lawnchair.toolkit.ToolkitWidgetProvider"
+            android:exported="true"
+            android:label="@string/toolkit_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/toolkit_appwidget_info" />
+        </receiver>
+
+        <receiver
+            android:name="app.lawnchair.toolkit.ToolkitActionReceiver"
+            android:exported="false" />
 
         <meta-data
             android:name="xyz.paphonb.quickstepswitcher.minSdk"
