@@ -38,6 +38,10 @@ class WeatherConfigActivity : Activity() {
     private var results: List<WeatherPlace> = emptyList()
     private lateinit var adapter: ArrayAdapter<String>
 
+    private companion object {
+        const val REQUEST_CALENDAR = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,6 +77,31 @@ class WeatherConfigActivity : Activity() {
         }
         findViewById<Button>(R.id.weather_config_search)!!.setOnClickListener {
             search(input.text.toString())
+        }
+
+        requestHolidayAccess()
+    }
+
+    /**
+     * The holiday name next to the lunar date comes from the subscribed holiday
+     * calendars. Asking here is the only chance to do so, because a widget cannot
+     * request a runtime permission itself. Declining simply leaves the holiday out.
+     */
+    private fun requestHolidayAccess() {
+        if (HolidayCalendar.hasPermission(this)) return
+        runCatching {
+            requestPermissions(arrayOf(android.Manifest.permission.READ_CALENDAR), REQUEST_CALENDAR)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CALENDAR && appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+            WeatherWidgetProvider.render(this, AppWidgetManager.getInstance(this), appWidgetId)
         }
     }
 

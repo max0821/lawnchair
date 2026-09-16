@@ -72,15 +72,52 @@
         </LinearLayout>
 
         <!--
-             Bottom gravity lines the date up with the high/low row on the left,
-             whatever the two columns end up measuring.
+             Equal weights across the three columns, so the date sits in the true
+             centre of the card rather than wherever the side content leaves it.
+        -->
+        <LinearLayout
+            android:id="@+id/weather_calendar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextClock
+                android:id="@+id/weather_day_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="M/d"
+                android:format24Hour="M/d"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/white"
+                android:textSize="46sp" />
+
+            <TextClock
+                android:id="@+id/weather_weekday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:alpha="0.9"
+                android:format12Hour="EEEE"
+                android:format24Hour="EEEE"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!--
+             Bottom gravity lines the lunar date up with the high/low row on the
+             left, whatever the two columns end up measuring.
         -->
         <LinearLayout
             android:id="@+id/weather_clock"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:gravity="end"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextClock
@@ -93,18 +130,20 @@
                 android:textColor="@android:color/white"
                 android:textSize="46sp" />
 
-            <TextClock
+            <!--
+                 The lunar date has to be computed, so unlike the rest of the
+                 clock it is a plain TextView refreshed by the provider.
+            -->
+            <TextView
                 android:id="@+id/weather_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:alpha="0.85"
-                android:format12Hour="M月d日 EEEE"
-                android:format24Hour="M月d日 EEEE"
-                android:gravity="end"
+                android:gravity="center_horizontal"
                 android:includeFontPadding="false"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>
 

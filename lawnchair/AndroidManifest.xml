@@ -26,6 +26,12 @@
     <uses-permission android:name="com.google.android.apps.nexuslauncher.permission.QSB" />
     <uses-permission android:name="com.kieronquinn.app.smartspacer.permission.ACCESS_SMARTSPACER"/>
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!--
+         Only for the holiday name on the clock widget. The queries are narrowed to
+         calendars owned by Google's holiday accounts, so personal calendars are
+         never read; see HolidayCalendar.
+    -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />

@@ -88,6 +88,16 @@ class WeatherWidgetProvider : AppWidgetProvider() {
             val place = WeatherStore.loadPlace(context, appWidgetId)
             val reading = WeatherStore.loadReading(context, appWidgetId)
 
+            // Everything else in the clock is a TextClock and updates itself; the
+            // lunar date has to be written, so it is only as fresh as the last
+            // redraw — at most one update period behind after midnight.
+            val lunar = LunarDate.today()
+            val holiday = HolidayCalendar.today(context)
+            views.setTextViewText(
+                R.id.weather_date,
+                listOfNotNull(lunar, holiday).joinToString(" "),
+            )
+
             if (place == null) {
                 views.setViewVisibility(R.id.weather_icon, View.GONE)
                 views.setTextViewText(R.id.weather_temp, "")
