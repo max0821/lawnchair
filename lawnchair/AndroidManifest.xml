@@ -182,6 +182,32 @@
             android:name="app.lawnchair.toolkit.ToolkitActionReceiver"
             android:exported="false" />
 
+        <activity
+            android:name="app.lawnchair.weather.WeatherConfigActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:label="@string/weather_widget_label"
+            android:theme="@style/Theme.ToolkitConfig"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="app.lawnchair.weather.WeatherWidgetProvider"
+            android:exported="true"
+            android:label="@string/weather_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="app.lawnchair.weather.REFRESH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/weather_appwidget_info" />
+        </receiver>
+
         <meta-data
             android:name="xyz.paphonb.quickstepswitcher.minSdk"
             android:value="${quickstepMinSdk}" />

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Laid out like the stock weather widgets: the summary across the top, the week
+     as a row of columns underneath. The clock uses TextClock so it ticks without
+     the provider having to schedule anything.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/weather_card_bg"
+    android:orientation="vertical"
+    android:paddingStart="14dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/weather_panel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/weather_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/weather_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="34sp" />
+
+                <ImageView
+                    android:id="@+id/weather_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="7dp"
+                    android:contentDescription="@null" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/weather_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:alpha="0.75"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!--
+             Bottom gravity lines the date up with the high/low row on the left,
+             whatever the two columns end up measuring.
+        -->
+        <LinearLayout
+            android:id="@+id/weather_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextClock
+                android:id="@+id/weather_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="h:mm"
+                android:format24Hour="H:mm"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/white"
+                android:textSize="46sp" />
+
+            <TextClock
+                android:id="@+id/weather_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:alpha="0.85"
+                android:format12Hour="M月d日 EEEE"
+                android:format24Hour="M月d日 EEEE"
+                android:gravity="end"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--
+         A FrameLayout rather than a plain View: RemoteViews cannot inflate
+         android.view.View at all, not even as a child, and one of them makes the
+         whole widget fail to load.
+    -->
+    <FrameLayout
+        android:id="@+id/weather_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.22"
+        android:background="@android:color/white" />
+
+    <LinearLayout
+        android:id="@+id/weather_week"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal" />
+</LinearLayout>

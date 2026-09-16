@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Defaults to 5x2. updatePeriodMillis is the 30 minute floor the platform
+     allows, which is often enough for weather; tapping the widget refreshes it
+     immediately.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="app.lawnchair.weather.WeatherConfigActivity"
+    android:description="@string/weather_widget_description"
+    android:initialLayout="@layout/weather_widget"
+    android:minHeight="110dp"
+    android:minResizeHeight="90dp"
+    android:minResizeWidth="180dp"
+    android:minWidth="250dp"
+    android:previewLayout="@layout/weather_widget"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellHeight="2"
+    android:targetCellWidth="5"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable" />

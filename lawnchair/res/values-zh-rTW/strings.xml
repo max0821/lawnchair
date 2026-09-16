@@ -507,6 +507,31 @@
     <string name="native_import_skipped">未安裝而略過:%1$s</string>
     <string name="native_import_failed">匯入失敗:%1$s</string>
 
+    <string name="weather_widget_label">時鐘與天氣</string>
+    <string name="weather_widget_description">顯示時間、日期,以及指定地點的目前天氣</string>
+    <string name="weather_pick_place">點一下選擇地點</string>
+    <string name="weather_loading">載入中…</string>
+    <string name="weather_range">高 %1$d° 低 %2$d° · 體感 %3$d°</string>
+    <string name="weather_search_hint">輸入地名後點選結果。只會送出該地點座標,不需要定位權限。</string>
+    <string name="weather_search_placeholder">城市名稱</string>
+    <string name="weather_search_button">搜尋</string>
+    <string name="weather_no_results">找不到符合的地點,請改用英文拼音,例如「Taipei」。</string>
+    <string name="weather_code_clear">晴</string>
+    <string name="weather_code_mostly_clear">晴時多雲</string>
+    <string name="weather_code_partly_cloudy">多雲</string>
+    <string name="weather_code_overcast">陰</string>
+    <string name="weather_code_fog">霧</string>
+    <string name="weather_code_drizzle">毛毛雨</string>
+    <string name="weather_code_freezing_drizzle">凍毛雨</string>
+    <string name="weather_code_rain">雨</string>
+    <string name="weather_code_freezing_rain">凍雨</string>
+    <string name="weather_code_snow">雪</string>
+    <string name="weather_code_showers">陣雨</string>
+    <string name="weather_code_snow_showers">陣雪</string>
+    <string name="weather_code_thunderstorm">雷雨</string>
+    <string name="weather_code_thunderstorm_hail">雷雨帶冰雹</string>
+    <string name="weather_code_unknown">—</string>
+
     <string name="toolkit_widget_label">常用工具包</string>
     <string name="toolkit_widget_description">把常用的 App 收在同一個小工具裡</string>
     <string name="toolkit_empty_hint">點一下選擇 App</string>

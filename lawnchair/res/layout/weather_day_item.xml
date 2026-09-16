@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     One column of the week row: weekday on top, condition in the middle, high and
+     low at the bottom. Added at runtime, so the root must be a view type RemoteViews
+     accepts — a plain View would make the whole widget fail to load.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/weather_day"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/weather_day_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textColor="@android:color/white"
+        android:textSize="11sp" />
+
+    <ImageView
+        android:id="@+id/weather_day_icon"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="3dp"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/weather_day_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:includeFontPadding="false"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/weather_day_low"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.6"
+        android:includeFontPadding="false"
+        android:textColor="@android:color/white"
+        android:textSize="11sp" />
+</LinearLayout>
