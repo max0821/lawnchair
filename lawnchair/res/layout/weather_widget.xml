@@ -62,10 +62,13 @@
 
             <TextView
                 android:id="@+id/weather_range"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:alpha="0.75"
+                android:autoSizeMaxTextSize="11sp"
+                android:autoSizeMinTextSize="8sp"
+                android:autoSizeTextType="uniform"
                 android:maxLines="1"
                 android:textColor="@android:color/white"
                 android:textSize="11sp" />
@@ -86,8 +89,13 @@
 
             <TextClock
                 android:id="@+id/weather_day_date"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoSizeMaxTextSize="46sp"
+                android:autoSizeMinTextSize="26sp"
+                android:autoSizeTextType="uniform"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
                 android:format12Hour="M/d"
                 android:format24Hour="M/d"
                 android:includeFontPadding="false"
@@ -96,9 +104,11 @@
 
             <TextClock
                 android:id="@+id/weather_weekday"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
                 android:alpha="0.9"
                 android:format12Hour="EEEE"
                 android:format24Hour="EEEE"
@@ -122,8 +132,13 @@
 
             <TextClock
                 android:id="@+id/weather_time"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoSizeMaxTextSize="46sp"
+                android:autoSizeMinTextSize="26sp"
+                android:autoSizeTextType="uniform"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
                 android:format12Hour="h:mm"
                 android:format24Hour="H:mm"
                 android:includeFontPadding="false"
@@ -136,10 +151,14 @@
             -->
             <TextView
                 android:id="@+id/weather_date"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:alpha="0.85"
+                android:autoSizeMaxTextSize="13sp"
+                android:autoSizeMinTextSize="8sp"
+                android:autoSizeTextType="uniform"
+                android:maxLines="1"
                 android:gravity="center_horizontal"
                 android:includeFontPadding="false"
                 android:textColor="@android:color/white"
