@@ -631,6 +631,18 @@
     <string name="native_import_skipped">Not installed, skipped: %1$s</string>
     <string name="native_import_failed">Import failed: %1$s</string>
 
+    <string name="html_dream_label">HTML screen saver</string>
+    <string name="html_dream_hint">Shows any web page while the phone charges or sits in a dock. Enter a web address, or pick an HTML file stored on the phone.</string>
+    <string name="html_dream_current">Now showing: %1$s</string>
+    <string name="html_dream_builtin">built-in sample clock</string>
+    <string name="html_dream_url_hint">https://… (leave empty for the built-in sample)</string>
+    <string name="html_dream_pick">Pick an HTML file on this phone</string>
+    <string name="html_dream_reset">Use the built-in sample</string>
+    <string name="html_dream_interactive">Let the page take touches (exit with the power or home button)</string>
+    <string name="html_dream_save">Save</string>
+    <string name="html_dream_saved">Saved. It applies the next time the screen saver starts.</string>
+    <string name="html_dream_bad_url">Use an address starting with http:// or https://, or pick a file.</string>
+
     <string name="weather_widget_label">Clock &amp; weather</string>
     <string name="weather_widget_description">Time, date and the current weather for a place you choose</string>
     <string name="weather_pick_place">Tap to choose a place</string>

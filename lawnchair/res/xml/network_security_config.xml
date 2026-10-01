@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Plain http is allowed because the HTML screen saver is meant to show pages
+     served on the local network, which are almost never https. Everything Lawnchair
+     itself talks to is https, so this only affects what the user points it at.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

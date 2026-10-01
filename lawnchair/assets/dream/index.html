@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StandBy</title>
+<style>
+  /* Modelled on iPhone StandBy: widgets on pure black. The left side stacks a digital
+     clock over the week's weather; the month sits on the right. */
+  :root {
+    --bg: #000;
+    --card: rgba(20, 20, 26, .10);
+    --fg: #fff;
+    --dim: #8e8e93;
+    --accent: #ff9f0a;
+    --today: #ff3b30;
+    --gap: 3vmin;
+  }
+  /* At night StandBy turns everything a dim red so it does not light up the room. */
+  body.night {
+    --card: rgba(20, 0, 0, .9);
+    --fg: #ff3b30;
+    --dim: #7a1a14;
+    --accent: #ff3b30;
+    --today: #ff3b30;
+  }
+  html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; color: var(--fg);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, .65);
+    font-family: -apple-system, "SF Pro Display", "Google Sans", Roboto, "Noto Sans TC", sans-serif; }
+  /* A different quiet night scene each day. It sits under a dark wash so the text
+     stays readable, drifts very slowly, and fades out entirely at night: a lit
+     photo would brighten a dark room, and StandBy goes to plain black there too. */
+  /* The paintings are brightened when they are packaged (a gamma lift on the
+     originals keeps their shadow detail); night mode still drops them to black. */
+  #bg { position: fixed; inset: -4vmin; background-size: cover; background-position: center;
+    opacity: 0; filter: contrast(1.12) saturate(1.3);
+    transition: opacity 3s ease, transform 60s linear; }
+  #bg.ready { opacity: 1; }
+  body.night #bg { opacity: 0; }
+  #wash { position: fixed; inset: 0; background: transparent; }
+  body.night #wash { background: #000; }
+
+  #stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    gap: var(--gap); transition: transform 3s ease; }
+  .col { display: flex; flex-direction: column; gap: var(--gap); }
+  .card { background: var(--card); -webkit-backdrop-filter: blur(3px) saturate(1.15); backdrop-filter: blur(3px) saturate(1.15);
+    border-radius: 7vmin; box-sizing: border-box;
+    display: flex; align-items: center; justify-content: center; transition: background 2s;
+    overflow: hidden; }
+
+  /* Landscape: two half-height cards on the left, one square on the right. */
+  .side { width: min(44vw, 86vh); }
+  .half { height: calc((min(44vw, 86vh) - var(--gap)) / 2); }
+  .full { width: min(44vw, 86vh); height: min(44vw, 86vh); }
+  @media (orientation: portrait) {
+    #stage { flex-direction: column; }
+    .side, .full { width: 88vw; }
+    .half { height: 26vh; }
+    .full { height: 40vh; }
+  }
+
+  /* Digital clock */
+  #digital { text-align: center; }
+  #time { font-size: min(17vmin, 15vw); font-weight: 600; line-height: 1; letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums; }
+  #today { color: var(--dim); font-size: 3.4vmin; font-weight: 600; margin-top: 1.2vmin; }
+
+  /* Weather week */
+  #wx { width: 90%; height: 84%; display: flex; flex-direction: column; justify-content: center;
+    gap: 3vmin; }
+  #wxHead { display: flex; align-items: baseline; gap: 1.6vmin; }
+  #wxPlace { font-size: 3.2vmin; font-weight: 600; }
+  #wxNow { font-size: 3.2vmin; color: var(--dim); }
+  #wxWeek { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; }
+  #wxWeek .day { display: flex; flex-direction: column; align-items: center; gap: .6vmin; }
+  #wxWeek .lbl { color: var(--dim); font-size: 2.8vmin; font-weight: 600; }
+  #wxWeek .day.today .lbl { color: var(--fg); }
+  #wxWeek .ico { font-size: 4.4vmin; line-height: 1.1; }
+  #wxWeek .hi { font-size: 3vmin; font-weight: 600; }
+  #wxWeek .lo { font-size: 2.7vmin; color: var(--dim); }
+  #wxWeek .day.past { opacity: .45; }
+  #wxEmpty { color: var(--dim); font-size: 3vmin; text-align: center; width: 100%; }
+  /* Emoji keep their own colours; at night pull them into the red palette too. */
+  body.night #wxWeek .ico { filter: grayscale(1) sepia(1) saturate(6) hue-rotate(-50deg) brightness(.7); }
+
+  /* Month */
+  #cal { width: 84%; height: 84%; display: flex; flex-direction: column; }
+  #calHead { display: flex; align-items: baseline; justify-content: space-between; }
+  #month { color: var(--today); font-size: 7vmin; font-weight: 700; letter-spacing: .02em; }
+  #lunar { color: var(--dim); font-size: 3.2vmin; }
+  #grid { flex: 1; display: grid; grid-template-columns: repeat(7, 1fr); align-items: center;
+    justify-items: center; margin-top: 1.6vmin; }
+  #grid .wd { color: var(--dim); font-size: 3.1vmin; font-weight: 600; }
+  #grid .d { font-size: 4vmin; font-weight: 600; width: 6.6vmin; height: 6.6vmin;
+    display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  #grid .d.weekend { color: var(--dim); }
+  #grid .d.today { background: var(--today); color: #fff; }
+  body.night #grid .d.today { color: #000; }
+
+  /* Charging indicator. Top left, because the system draws its own status icons
+     (alarm and the like) over the top right of a screen saver. */
+  #power { position: fixed; top: 3vmin; left: 4vmin; display: none; align-items: center;
+    gap: 1vmin; color: var(--dim); font-size: 3vmin; font-weight: 600; }
+  #power.show { display: flex; }
+  #power.charging { color: #30d158; }
+  body.night #power.charging { color: var(--fg); }
+  #power svg { width: 3.4vmin; height: 3.4vmin; fill: currentColor; }
+
+  #offline { position: fixed; bottom: 2vmin; left: 0; right: 0; text-align: center;
+    color: var(--dim); font-size: 2.4vmin; display: none; }
+  body.offline #offline { display: block; }
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div id="wash"></div>
+<div id="stage">
+  <div class="col side">
+    <div class="card half">
+      <div id="digital"><div id="time"></div><div id="today"></div></div>
+    </div>
+    <div class="card half">
+      <div id="wx">
+        <div id="wxHead"><span id="wxPlace"></span><span id="wxNow"></span></div>
+        <div id="wxWeek"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card full">
+    <div id="cal">
+      <div id="calHead"><span id="month"></span><span id="lunar"></span></div>
+      <div id="grid"></div>
+    </div>
+  </div>
+</div>
+<div id="power"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg><span id="level"></span></div>
+<div id="offline">無法連到網站,先顯示內建畫面 · 連上後會自動切換</div>
+
+<script>
+  const pad = n => String(n).padStart(2, "0");
+  const WEEKDAYS = ["日","一","二","三","四","五","六"];
+  const MONTHS = ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
+
+  // Lunar date. The WebView's ICU does the conversion but names lunar months only as
+  // codes such as "M08", so the numbers are taken and named here instead.
+  const lunarFmt = new Intl.DateTimeFormat("en-u-ca-chinese", { month: "numeric", day: "numeric" });
+  const L_MONTHS = ["正月","二月","三月","四月","五月","六月","七月","八月","九月","十月","冬月","臘月"];
+  const L_DAYS = ["初一","初二","初三","初四","初五","初六","初七","初八","初九","初十",
+    "十一","十二","十三","十四","十五","十六","十七","十八","十九","二十",
+    "廿一","廿二","廿三","廿四","廿五","廿六","廿七","廿八","廿九","三十"];
+  function lunar(date) {
+    const parts = lunarFmt.formatToParts(date);
+    const month = parts.find(p => p.type === "month").value;   // "8", or "8bis" when leap
+    const day = parseInt(parts.find(p => p.type === "day").value, 10);
+    return (/bis/i.test(month) ? "閏" : "") + L_MONTHS[parseInt(month, 10) - 1] + L_DAYS[day - 1];
+  }
+
+  // ---- Digital clock -------------------------------------------------------------
+  function tick() {
+    const now = new Date();
+    document.getElementById("time").textContent = now.getHours() + ":" + pad(now.getMinutes());
+    document.getElementById("today").textContent =
+      (now.getMonth() + 1) + "月" + now.getDate() + "日 週" + WEEKDAYS[now.getDay()];
+  }
+
+  // ---- Month ---------------------------------------------------------------------
+  let shownDay = -1;
+  function renderMonth(now) {
+    if (now.getDate() === shownDay) return;
+    shownDay = now.getDate();
+    document.getElementById("month").textContent = MONTHS[now.getMonth()];
+    document.getElementById("lunar").textContent = lunar(now);
+
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+    WEEKDAYS.forEach(w => {
+      const e = document.createElement("div"); e.className = "wd"; e.textContent = w; grid.appendChild(e);
+    });
+    const first = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+    const days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    for (let i = 0; i < first; i++) grid.appendChild(document.createElement("div"));
+    for (let d = 1; d <= days; d++) {
+      const e = document.createElement("div");
+      const wd = (first + d - 1) % 7;
+      e.className = "d" + (wd === 0 || wd === 6 ? " weekend" : "") + (d === now.getDate() ? " today" : "");
+      e.textContent = d;
+      grid.appendChild(e);
+    }
+  }
+
+  // ---- Weather week --------------------------------------------------------------
+  // WMO weather codes, grouped the same way as the home screen widget.
+  function icon(code) {
+    if (code === 0) return "☀️";
+    if (code === 1 || code === 2) return "⛅";
+    if (code === 3) return "☁️";
+    if (code === 45 || code === 48) return "🌫️";
+    if ([71, 73, 75, 77, 85, 86].includes(code)) return "❄️";
+    if ([95, 96, 99].includes(code)) return "⛈️";
+    if (code >= 51 && code <= 82) return "🌧️";
+    return "☁️";
+  }
+
+  function iso(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+
+  function renderWeather(w) {
+    const week = document.getElementById("wxWeek");
+    week.innerHTML = "";
+    if (!w) {
+      document.getElementById("wxPlace").textContent = "";
+      document.getElementById("wxNow").textContent = "";
+      const e = document.createElement("div");
+      e.id = "wxEmpty"; e.style.gridColumn = "1 / -1";
+      e.textContent = "在桌面加入「時鐘與天氣」小工具並選擇地點後,這裡會顯示一週天氣";
+      week.appendChild(e);
+      return;
+    }
+    document.getElementById("wxPlace").textContent = w.place;
+    document.getElementById("wxNow").textContent = w.temp + "° " + w.condition +
+      " · 高 " + w.high + "° 低 " + w.low + "°";
+
+    // Monday to Sunday of this week, matching the home screen widget.
+    const now = new Date();
+    const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7));
+    const byDate = {};
+    (w.week || []).forEach(d => byDate[d.date] = d);
+    const todayIso = iso(now);
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i);
+      const key = iso(date), d = byDate[key];
+      const col = document.createElement("div");
+      col.className = "day" + (key === todayIso ? " today" : "") + (key < todayIso ? " past" : "");
+      col.innerHTML = '<span class="lbl">' + WEEKDAYS[date.getDay()] + '</span>' +
+        '<span class="ico">' + (d ? icon(d.code) : "·") + '</span>' +
+        '<span class="hi">' + (d ? d.high + "°" : "—") + '</span>' +
+        '<span class="lo">' + (d ? d.low + "°" : "") + '</span>';
+      week.appendChild(col);
+    }
+  }
+
+  // ---- State pushed in by the screen saver ---------------------------------------
+  // Room light, battery and weather. Night mode follows the light sensor like
+  // StandBy does; only without a reading does it fall back to the time of day.
+  let state = window.lawnchairState || {};
+
+  function applyNight() {
+    let night;
+    if (state.dark === true || state.dark === false) {
+      night = state.dark;
+    } else {
+      const h = new Date().getHours();
+      night = h >= 22 || h < 6;
+    }
+    document.body.classList.toggle("night", night);
+  }
+
+  function applyPower() {
+    const box = document.getElementById("power");
+    const known = typeof state.battery === "number";
+    box.classList.toggle("show", known && state.charging === true);
+    box.classList.toggle("charging", state.charging === true);
+    document.getElementById("level").textContent = known ? state.battery + "%" : "";
+  }
+
+  function applyState() {
+    applyNight();
+    applyPower();
+    renderWeather(state.weather || null);
+  }
+
+  window.addEventListener("lawnchair", e => { state = e.detail || {}; applyState(); });
+
+  function minute() {
+    renderMonth(new Date());
+    applyNight();
+    applyBackground();
+  }
+
+  // A few pixels of drift each minute keeps the static parts off the same OLED pixels.
+  function drift() {
+    const x = (Math.random() * 2 - 1) * 1.2, y = (Math.random() * 2 - 1) * 1.2;
+    document.getElementById("stage").style.transform = "translate(" + x + "vmin," + y + "vmin)";
+    const bx = (Math.random() * 2 - 1) * 3, by = (Math.random() * 2 - 1) * 3;
+    document.getElementById("bg").style.transform = "translate(" + bx + "vmin," + by + "vmin)";
+  }
+
+  // ---- Daily background ----------------------------------------------------------
+  const BACKGROUNDS = 21;
+  let shownBg = "";
+
+  function dayOfYear(d) {
+    return Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) -
+      Date.UTC(d.getFullYear(), 0, 0)) / 86400000);
+  }
+
+  // Each scene comes as a landscape and a portrait painting, so turning the phone
+  // swaps to a version composed for that shape instead of cropping the other one.
+  const portrait = window.matchMedia("(orientation: portrait)");
+
+  function applyBackground() {
+    // "?bg=N" pins one scene instead of rotating by day.
+    const pinned = parseInt(new URLSearchParams(location.search).get("bg"), 10);
+    const index = pinned >= 1 && pinned <= BACKGROUNDS ? pinned
+      : dayOfYear(new Date()) % BACKGROUNDS + 1;
+    const url = "bg/night-" + index + (portrait.matches ? "-portrait" : "-landscape") + ".webp";
+    if (url === shownBg) return;
+    shownBg = url;
+    const bg = document.getElementById("bg");
+    // Only fade in once it has loaded. If the version for this orientation is
+    // missing, the other one is used rather than leaving plain black.
+    const fallback = url.replace(portrait.matches ? "-portrait" : "-landscape",
+      portrait.matches ? "-landscape" : "-portrait");
+    const show = src => { bg.style.backgroundImage = "url(" + src + ")"; bg.classList.add("ready"); };
+    const img = new Image();
+    img.onload = () => show(url);
+    img.onerror = () => {
+      const alt = new Image();
+      alt.onload = () => show(fallback);
+      alt.src = fallback;
+    };
+    img.src = url;
+  }
+
+  portrait.addEventListener("change", applyBackground);
+  if (location.hash === "#offline") document.body.classList.add("offline");
+  tick(); minute(); applyState(); drift();
+  setInterval(tick, 1000);
+  setInterval(minute, 15000);
+  setInterval(drift, 60000);
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The class name alone resolves against this package, so debug and release both work. -->
+<dream xmlns:android="http://schemas.android.com/apk/res/android"
+    android:settingsActivity="app.lawnchair.dream.HtmlDreamSettingsActivity" />

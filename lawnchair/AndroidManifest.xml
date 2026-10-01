@@ -58,7 +58,7 @@
         android:name="${packageName}.permission.HOTSEAT_EDU"
         tools:node="remove" />
 
-    <application>
+    <application android:networkSecurityConfig="@xml/network_security_config">
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -213,6 +213,28 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/weather_appwidget_info" />
         </receiver>
+
+        <service
+            android:name="app.lawnchair.dream.HtmlDreamService"
+            android:exported="true"
+            android:label="@string/html_dream_label"
+            android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.dream"
+                android:resource="@xml/html_dream" />
+        </service>
+
+        <activity
+            android:name="app.lawnchair.dream.HtmlDreamSettingsActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:label="@string/html_dream_label"
+            android:theme="@style/Theme.ToolkitConfig"
+            android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="xyz.paphonb.quickstepswitcher.minSdk"
