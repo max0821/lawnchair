@@ -27,21 +27,23 @@
   html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; color: var(--fg);
     text-shadow: 0 1px 8px rgba(0, 0, 0, .65);
     font-family: -apple-system, "SF Pro Display", "Google Sans", Roboto, "Noto Sans TC", sans-serif; }
-  /* A different quiet night scene each day. It sits under a dark wash so the text
-     stays readable, drifts very slowly, and fades out entirely at night: a lit
-     photo would brighten a dark room, and StandBy goes to plain black there too. */
+  /* A different quiet night scene each day. It stays still and fades out entirely
+     at night: a lit photo would brighten a dark room, and StandBy goes to plain
+     black there too. Nothing on this page animates continuously; every running
+     animation makes the 120 Hz screen redraw the blurred cards every frame, which
+     is what heats a charging phone, while a still page lets the display idle. */
   /* The paintings are brightened when they are packaged (a gamma lift on the
      originals keeps their shadow detail); night mode still drops them to black. */
-  #bg { position: fixed; inset: -4vmin; background-size: cover; background-position: center;
+  #bg { position: fixed; inset: 0; background-size: cover; background-position: center;
     opacity: 0; filter: contrast(1.12) saturate(1.3);
-    transition: opacity 3s ease, transform 60s linear; }
+    transition: opacity 3s ease; }
   #bg.ready { opacity: 1; }
   body.night #bg { opacity: 0; }
   #wash { position: fixed; inset: 0; background: transparent; }
   body.night #wash { background: #000; }
 
   #stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    gap: var(--gap); transition: transform 3s ease; }
+    gap: var(--gap); }
   .col { display: flex; flex-direction: column; gap: var(--gap); }
   .card { background: var(--card); -webkit-backdrop-filter: blur(3px) saturate(1.15); backdrop-filter: blur(3px) saturate(1.15);
     border-radius: 7vmin; box-sizing: border-box;
@@ -276,12 +278,11 @@
     applyBackground();
   }
 
-  // A few pixels of drift each minute keeps the static parts off the same OLED pixels.
+  // A small shift each minute keeps the static parts off the same OLED pixels. It
+  // jumps rather than glides, as always-on displays do, so it costs one frame.
   function drift() {
-    const x = (Math.random() * 2 - 1) * 1.2, y = (Math.random() * 2 - 1) * 1.2;
+    const x = (Math.random() * 2 - 1) * 0.8, y = (Math.random() * 2 - 1) * 0.8;
     document.getElementById("stage").style.transform = "translate(" + x + "vmin," + y + "vmin)";
-    const bx = (Math.random() * 2 - 1) * 3, by = (Math.random() * 2 - 1) * 3;
-    document.getElementById("bg").style.transform = "translate(" + bx + "vmin," + by + "vmin)";
   }
 
   // ---- Daily background ----------------------------------------------------------
