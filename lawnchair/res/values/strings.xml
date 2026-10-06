@@ -642,6 +642,12 @@
     <string name="html_dream_save">Save</string>
     <string name="html_dream_saved">Saved. It applies the next time the screen saver starts.</string>
     <string name="html_dream_bad_url">Use an address starting with http:// or https://, or pick a file.</string>
+    <string name="html_dream_notification_hidden">New notification</string>
+    <string name="html_dream_dark_off_label">Turn the screen off once the room has been dark for</string>
+    <string name="html_dream_dark_off_never">Never (stay on all night)</string>
+    <string name="html_dream_dark_off_minutes">%1$d minutes</string>
+    <string name="html_dream_dark_off_needs_a11y">Turning the screen off needs the Lawnchair accessibility service. Without it the screen is only dimmed as far as it goes.</string>
+    <string name="html_dream_dark_off_open_a11y">Open accessibility settings</string>
 
     <string name="weather_widget_label">Clock &amp; weather</string>
     <string name="weather_widget_description">Time, date and the current weather for a place you choose</string>

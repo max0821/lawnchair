@@ -62,6 +62,35 @@
             android:layout_marginTop="8dp"
             android:text="@string/html_dream_interactive" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/html_dream_dark_off_label"
+            android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/html_dream_dark_off"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/html_dream_dark_off_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/html_dream_dark_off_needs_a11y"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/html_dream_dark_off_a11y"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/html_dream_dark_off_open_a11y"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/html_dream_save"
             android:layout_width="match_parent"

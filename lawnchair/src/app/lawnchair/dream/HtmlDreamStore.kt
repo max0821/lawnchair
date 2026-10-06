@@ -27,6 +27,10 @@ object HtmlDreamStore {
     private const val PREFS_NAME = "html_dream"
     private const val KEY_URL = "url"
     private const val KEY_INTERACTIVE = "interactive"
+    private const val KEY_DARK_OFF_MINUTES = "dark_off_minutes"
+
+    /** The choices offered for [darkOffMinutes]; 0 keeps the screen on. */
+    val DARK_OFF_CHOICES = intArrayOf(0, 5, 10, 15, 30, 60)
 
     private fun prefs(context: Context) =
         context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -47,5 +51,15 @@ object HtmlDreamStore {
 
     fun setInteractive(context: Context, value: Boolean) {
         prefs(context).edit().putBoolean(KEY_INTERACTIVE, value).apply()
+    }
+
+    /**
+     * How long the room has to stay dark before the screen saver ends and the screen
+     * turns off, or 0 to keep it on all night.
+     */
+    fun darkOffMinutes(context: Context): Int = prefs(context).getInt(KEY_DARK_OFF_MINUTES, 10)
+
+    fun setDarkOffMinutes(context: Context, minutes: Int) {
+        prefs(context).edit().putInt(KEY_DARK_OFF_MINUTES, minutes).apply()
     }
 }

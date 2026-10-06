@@ -17,16 +17,23 @@
 package app.lawnchair.dream
 
 import android.app.Activity
+import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.view.WindowInsets
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import app.lawnchair.gestures.handlers.SleepMethodDeviceAdmin
+import app.lawnchair.lawnchairApp
 import com.android.launcher3.R
 
 /**
@@ -49,6 +56,23 @@ class HtmlDreamSettingsActivity : Activity() {
         val interactive = findViewById<CheckBox>(R.id.html_dream_interactive)!!
         interactive.isChecked = HtmlDreamStore.interactive(this)
 
+        val darkOff = findViewById<Spinner>(R.id.html_dream_dark_off)!!
+        val choices = HtmlDreamStore.DARK_OFF_CHOICES
+        darkOff.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            choices.map {
+                if (it == 0) getString(R.string.html_dream_dark_off_never)
+                else getString(R.string.html_dream_dark_off_minutes, it)
+            },
+        )
+        darkOff.setSelection(choices.indexOf(HtmlDreamStore.darkOffMinutes(this)).coerceAtLeast(0))
+        findViewById<Button>(R.id.html_dream_dark_off_a11y)!!.setOnClickListener {
+            runCatching {
+                startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            }
+        }
+
         findViewById<Button>(R.id.html_dream_pick)!!.setOnClickListener { pickFile() }
         findViewById<Button>(R.id.html_dream_reset)!!.setOnClickListener {
             urlInput.setText("")
@@ -62,10 +86,26 @@ class HtmlDreamSettingsActivity : Activity() {
             }
             HtmlDreamStore.setUrl(this, url)
             HtmlDreamStore.setInteractive(this, interactive.isChecked)
+            HtmlDreamStore.setDarkOffMinutes(this, choices[darkOff.selectedItemPosition])
             Toast.makeText(this, R.string.html_dream_saved, Toast.LENGTH_SHORT).show()
             finish()
         }
         updateCurrent(urlInput.text.toString())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Re-checked on return, since the service is switched on in system settings.
+        val visibility = if (canLockScreen()) View.GONE else View.VISIBLE
+        findViewById<View>(R.id.html_dream_dark_off_hint)!!.visibility = visibility
+        findViewById<View>(R.id.html_dream_dark_off_a11y)!!.visibility = visibility
+    }
+
+    /** What [HtmlDreamService] needs to really turn the screen off; see turnScreenOff. */
+    private fun canLockScreen(): Boolean {
+        if (lawnchairApp.isAccessibilityServiceBound()) return true
+        val admin = ComponentName(this, SleepMethodDeviceAdmin.SleepDeviceAdmin::class.java)
+        return getSystemService(DevicePolicyManager::class.java)?.isAdminActive(admin) == true
     }
 
     private fun isSupported(url: String) =

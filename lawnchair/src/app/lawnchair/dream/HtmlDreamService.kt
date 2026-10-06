@@ -16,7 +16,9 @@
 
 package app.lawnchair.dream
 
+import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
+import android.app.admin.DevicePolicyManager
 import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
 import android.content.ComponentName
@@ -40,12 +42,17 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
+import android.view.WindowManager
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
+import app.lawnchair.gestures.handlers.SleepMethodDeviceAdmin
+import app.lawnchair.lawnchairApp
 import app.lawnchair.weather.WeatherCodes
 import app.lawnchair.weather.WeatherStore
 import app.lawnchair.weather.WeatherWidgetProvider
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.Calendar
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -62,11 +69,15 @@ import org.json.JSONObject
  * `lawnchair` window event and `window.lawnchairState`; see [pushState]. Data only flows into the page — it
  * gets no handle to call back into the app, so pointing the screen saver at a remote
  * site does not hand that site any control of the phone.
+ *
+ * Notifications are drawn by the app over the page ([DreamNotificationOverlay]) rather
+ * than given to it, so they show on any page without any page being able to read them.
  */
 class HtmlDreamService : DreamService() {
 
     private val handler = Handler(Looper.getMainLooper())
     private var webView: WebView? = null
+    private var notifications: DreamNotificationOverlay? = null
     private var target = HtmlDreamStore.DEFAULT_URL
     private var showingFallback = false
     private var probing = false
@@ -88,6 +99,9 @@ class HtmlDreamService : DreamService() {
 
     /** A pending check that the page actually finished, rather than hung. */
     private val loadTimeout = Runnable { fallBack() }
+
+    private val darkOff = Runnable { turnScreenOff() }
+    private var darkOffMs = 0L
 
     private val pushRunnable = Runnable {
         pushPending = false
@@ -127,6 +141,7 @@ class HtmlDreamService : DreamService() {
                 value >= LIGHT_ABOVE_LUX -> false
                 else -> wasDark ?: false
             }
+            if (dark != wasDark) scheduleDarkOff()
             schedulePush(urgent = dark != wasDark)
         }
 
@@ -155,6 +170,7 @@ class HtmlDreamService : DreamService() {
         }
 
         target = HtmlDreamStore.url(this)
+        darkOffMs = HtmlDreamStore.darkOffMinutes(this) * 60_000L
         val view = WebView(this).apply {
             setBackgroundColor(Color.BLACK)
             settings.javaScriptEnabled = true
@@ -165,7 +181,16 @@ class HtmlDreamService : DreamService() {
             webViewClient = Client()
         }
         webView = view
-        setContentView(view)
+        val overlay = DreamNotificationOverlay(this)
+        notifications = overlay
+        setContentView(
+            FrameLayout(this).apply {
+                addView(view)
+                addView(overlay)
+            },
+        )
+        overlay.setNight(isNight())
+        overlay.start()
 
         startSensing()
         loadTarget()
@@ -192,6 +217,8 @@ class HtmlDreamService : DreamService() {
     override fun onDetachedFromWindow() {
         handler.removeCallbacksAndMessages(null)
         stopSensing()
+        notifications?.stop()
+        notifications = null
         runCatching {
             getSystemService(ConnectivityManager::class.java)
                 ?.unregisterNetworkCallback(networkCallback)
@@ -199,6 +226,39 @@ class HtmlDreamService : DreamService() {
         webView?.destroy()
         webView = null
         super.onDetachedFromWindow()
+    }
+
+    /**
+     * Turns the screen off once the room has stayed dark for the chosen time.
+     *
+     * Simply finishing the dream does not do it: the system wakes to the lock screen
+     * and, still charging, starts the dream again a few seconds later. Locking the
+     * phone the way the power button does is needed, which takes Lawnchair's
+     * accessibility service or device admin — the same ones double-tap-to-sleep
+     * uses. Without either, the screen is dimmed as far as it goes instead.
+     */
+    private fun turnScreenOff() {
+        if (lawnchairApp.isAccessibilityServiceBound() &&
+            lawnchairApp.performGlobalAction(AccessibilityService.GLOBAL_ACTION_LOCK_SCREEN)
+        ) {
+            return
+        }
+        val admin = ComponentName(this, SleepMethodDeviceAdmin.SleepDeviceAdmin::class.java)
+        val policy = getSystemService(DevicePolicyManager::class.java)
+        if (policy?.isAdminActive(admin) == true && runCatching { policy.lockNow() }.isSuccess) {
+            return
+        }
+        isScreenBright = false
+        window?.let {
+            it.attributes = it.attributes.apply {
+                screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF
+            }
+        }
+    }
+
+    private fun scheduleDarkOff() {
+        handler.removeCallbacks(darkOff)
+        if (darkOffMs > 0 && dark == true) handler.postDelayed(darkOff, darkOffMs)
     }
 
     private fun startSensing() {
@@ -257,6 +317,7 @@ class HtmlDreamService : DreamService() {
      * time of day when there is no light reading).
      */
     private fun pushState() {
+        notifications?.setNight(isNight())
         val view = webView ?: return
         lastPush = SystemClock.uptimeMillis()
         val state = JSONObject().apply {
@@ -273,6 +334,10 @@ class HtmlDreamService : DreamService() {
             null,
         )
     }
+
+    /** The same rule the bundled page uses: the light sensor, or late hours without one. */
+    private fun isNight(): Boolean = dark ?: Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        .let { it >= NIGHT_FROM_HOUR || it < NIGHT_UNTIL_HOUR }
 
     /** The first clock-and-weather widget that has a place chosen, if any. */
     private fun weatherWidgetId(): Int? = runCatching {
@@ -396,6 +461,8 @@ class HtmlDreamService : DreamService() {
         /** Roughly a room with the lights off. */
         const val DARK_BELOW_LUX = 5f
         const val LIGHT_ABOVE_LUX = 15f
+        const val NIGHT_FROM_HOUR = 22
+        const val NIGHT_UNTIL_HOUR = 6
 
         fun isRemote(url: String) = url.startsWith("http://") || url.startsWith("https://")
     }

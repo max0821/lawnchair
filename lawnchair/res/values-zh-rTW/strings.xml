@@ -518,6 +518,12 @@
     <string name="html_dream_save">儲存</string>
     <string name="html_dream_saved">已儲存,下次啟動螢幕保護程式時生效。</string>
     <string name="html_dream_bad_url">請輸入 http:// 或 https:// 開頭的網址,或改選檔案。</string>
+    <string name="html_dream_notification_hidden">新通知</string>
+    <string name="html_dream_dark_off_label">房間暗下來多久後自動關螢幕</string>
+    <string name="html_dream_dark_off_never">不關閉(整晚亮著)</string>
+    <string name="html_dream_dark_off_minutes">%1$d 分鐘</string>
+    <string name="html_dream_dark_off_needs_a11y">要真正關掉螢幕,需要開啟 Lawnchair 的無障礙服務;未開啟時只會把螢幕調到最暗。</string>
+    <string name="html_dream_dark_off_open_a11y">開啟無障礙設定</string>
 
     <string name="weather_widget_label">時鐘與天氣</string>
     <string name="weather_widget_description">顯示時間、日期,以及指定地點的目前天氣</string>
