@@ -19,11 +19,11 @@ PixelStyle 客製程式位於 [`codex/06-lawnchair-pixelstyle`](https://github.c
 
 ### 下載 APK（預覽版）
 
-[下載 PixelStyle Lawnchair r2 APK](https://github.com/max0821/lawnchair/releases/download/pixelstyle-v15.0.0-beta3.0-r2/Lawnchair.15.Dev.83ee2a3.github.release.apk)
+[下載 PixelStyle Lawnchair r3 APK](https://github.com/max0821/lawnchair/releases/download/pixelstyle-v15.0.0-beta3.0-r3/Lawnchair.15.Dev.29b8978.github.release.apk)
 
-SHA-256：`C5DF323920E2FDCB12B4B3588414A62272643B058017B44D60BEF3435AC753D8`
+SHA-256：`BB50E003F3CAF76561150112BDBA3740754E512D64A7A22B822275E1985E0F8D`
 
-與 r1 使用相同簽章，可直接覆蓋安裝升級。
+r3 只修正 Android 內部版本碼至 `1500020301`，功能與 r2 相同；它使用相同簽章，可直接覆蓋升級 r1 或 r2。
 
 完整說明請見 [中文客製文件](https://github.com/max0821/lawnchair/blob/codex/06-lawnchair-pixelstyle/docs/PIXELSTYLE_LAWNCHAIR_CUSTOMIZATION.zh-TW.md)。
 
