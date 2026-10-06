@@ -5,17 +5,25 @@
 預設 `16-dev` 分支用於跟隨上游 Lawnchair 16；
 PixelStyle 客製程式位於 [`codex/06-lawnchair-pixelstyle`](https://github.com/max0821/lawnchair/tree/codex/06-lawnchair-pixelstyle) 分支，基於 Lawnchair `v15.0.0-beta3.0`，保留上游授權與來源追溯。
 
-### 兩個核心亮點
+### 核心亮點
 
 **主頁左邊的小工具頁**：主頁預設第 2 頁，左側第 1 頁固定為小工具頁。
 
 **自動依原生桌面匯入**：啟用 Lawnchair 無障礙服務後，可掃描並匯入原生桌面的應用程式與資料夾配置。
 
+### r2 新增
+
+- **常用工具包小工具**：一個小工具收納多個 App 與系統工具（手電筒、QR 掃描、即時轉錄、鬧鐘、計時器、相機、Wi-Fi、藍牙），可拖曳排序。
+- **時鐘與天氣小工具**：5x2，時鐘、日期、農曆、節日與整週天氣；天氣來自免金鑰的 Open-Meteo，不使用定位權限。
+- **HTML 螢幕保護程式（待機模式）**：充電時顯示仿 iPhone StandBy 的時鐘、週天氣與月曆，21 組夜景背景每日輪換；也可改顯示自訂網頁。會在畫面上方顯示通知（遵守鎖定畫面隱私設定），房間變暗一段時間後自動關閉螢幕。
+
 ### 下載 APK（預覽版）
 
-[下載 PixelStyle Lawnchair APK](https://github.com/max0821/lawnchair/releases/download/pixelstyle-v15.0.0-beta3.0-r1/Lawnchair.15.Dev.88c37c5.github.release.apk)
+[下載 PixelStyle Lawnchair r2 APK](https://github.com/max0821/lawnchair/releases/download/pixelstyle-v15.0.0-beta3.0-r2/Lawnchair.15.Dev.83ee2a3.github.release.apk)
 
-SHA-256：`87AC928DCF7998430555FB564B5FEAB42E8FF2ADFD2E6DC3B342EECC118DAD99`
+SHA-256：`C5DF323920E2FDCB12B4B3588414A62272643B058017B44D60BEF3435AC753D8`
+
+與 r1 使用相同簽章，可直接覆蓋安裝升級。
 
 完整說明請見 [中文客製文件](https://github.com/max0821/lawnchair/blob/codex/06-lawnchair-pixelstyle/docs/PIXELSTYLE_LAWNCHAIR_CUSTOMIZATION.zh-TW.md)。
 
